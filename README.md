@@ -5,9 +5,9 @@ To run this application please follow these steps:
 
 1. Clone repository
 2. In terminal, navigate to the repository
-3. Navigate to the folder 'to-do-list'
+3. Navigate to the folder 'to-do-list' (this is the actual React app folder)
 4. Type command 'npm start' and press enter
-5. Will run the react script on port 3000 and will automatically open in your default web browser
+5. Will run the react script on your local host port 3000 and will automatically open in your default web browser
 
 About this project.
 
