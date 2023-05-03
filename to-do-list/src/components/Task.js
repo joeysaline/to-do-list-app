@@ -6,8 +6,8 @@ export default function Task({ props }) {
     <div className="border p-3 m-3">
       <div className="container">
         <div className="row">
-          <div className="col-10">{props.desc}</div>
-          <div className="col-2">
+          <div className="col-12 col-md-8 col-xl-10">{props.desc}</div>
+          <div className="col-12 col-md-4 col-xl-2 mt-3 mt-md-0">
             <RemoveTask id={props.id}></RemoveTask>
           </div>
         </div>

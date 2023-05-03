@@ -6,7 +6,7 @@ export default function TaskList() {
   const { tasks } = useTask();
   return (
     <>
-      <div className="text-center">
+      <div className="text-center text-md-start">
         {tasks.map((item) => (
           <Task key={item.id} props={item} />
         ))}
