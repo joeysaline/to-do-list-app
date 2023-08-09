@@ -1,5 +1,5 @@
 import React from "react";
-import { v4 as uuidv4 } from "uuid";
+// import { v4 as uuidv4 } from "uuid";
 import { useTask } from "../TaskContext";
 import { Button, TextField } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -8,14 +8,14 @@ export default function AddTask() {
   const { task, setTask, addTask } = useTask();
 
   function handleTaskStateChange(e) {
-    setTask({ ...task, desc: e.target.value });
+    setTask({ ...task, description: e.target.value });
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (task.desc.trim()) {
-      addTask({ ...task, id: uuidv4() });
-      setTask({ ...task, desc: "" });
+    if (task.description.trim()) {
+      addTask(task.description);
+      setTask({ ...task, description: "" });
     }
   }
 
@@ -29,7 +29,7 @@ export default function AddTask() {
               variant="standard"
               type="text"
               label="enter task"
-              value={task.desc}
+              value={task.description}
               onChange={handleTaskStateChange}
             />
           </div>
