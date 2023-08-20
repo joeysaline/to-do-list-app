@@ -1,16 +1,22 @@
 import React from "react";
 import RemoveTask from "./RemoveTask";
+import EditTask from "./EditTask";
+import { Checkbox } from "@mui/material";
 
 export default function Task({ props }) {
   return (
-    <div className="border p-3 m-3">
-      <div className="container">
-        <div className="row">
-          <div className="col-12 col-md-8 col-xl-10">{props.description}</div>
-          <div className="col-12 col-md-4 col-xl-2 mt-3 mt-md-0">
-            <RemoveTask id={props.id}></RemoveTask>
-          </div>
-        </div>
+    <div className="row pt-3">
+      <div className="col-1 align-self-center text-center">
+        <Checkbox size="small"/>
+      </div>
+      <div className="col-8 col-md-9 align-self-center">
+        {props.description}
+      </div>
+      <div className="col-1 align-self-center">
+        <EditTask id={props.id}></EditTask>
+      </div>
+      <div className="col-2 col-md-1 align-self-center">
+        <RemoveTask id={props.id}></RemoveTask>
       </div>
     </div>
   );

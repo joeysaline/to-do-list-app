@@ -6,12 +6,10 @@ import { TaskProvider } from "./TaskContext";
 function App() {
   return (
     <TaskProvider>
-      <div className="container-md text-center mt-5">
-        <h1>To-Do</h1>
-        <div className="border p-3">
-          <AddTask></AddTask>
-          <TaskList></TaskList>
-        </div>
+      <div className="container">
+        <h1 className="text-center pt-3">To Do</h1>
+        <AddTask></AddTask>
+        <TaskList></TaskList>
       </div>
     </TaskProvider>
   );

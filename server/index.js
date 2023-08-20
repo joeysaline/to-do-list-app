@@ -20,6 +20,20 @@ app.post("/tasks", async (req, res) => {
     console.error(err.message);
   }
 });
+
+app.post("/tasks1", async (req, res) => {
+  try {
+    const description = req.body;
+    const newTask = await pool.query(
+      "INSERT INTO tasks (description) VALUES($1) RETURNING *",
+      [description]
+    );
+    res.json(newTask.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
 // Read a task
 app.get("/tasks/:id", async (req, res) => {
   try {
@@ -34,7 +48,7 @@ app.get("/tasks/:id", async (req, res) => {
 // Read all tasks
 app.get("/tasks", async (req, res) => {
   try {
-    const allTasks = await pool.query("SELECT * FROM tasks");
+    const allTasks = await pool.query("SELECT * FROM tasks ORDER BY id DESC");
     res.json(allTasks.rows);
   } catch (err) {
     console.log(err.message);

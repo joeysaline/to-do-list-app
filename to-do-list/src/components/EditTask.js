@@ -1,13 +1,12 @@
 import React from "react";
 import { useTask } from "../TaskContext";
 import { Button, IconButton } from "@mui/material";
-import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-// import DeleteForever from '@mui/icons-material/DeleteForever';
+import EditIcon from "@mui/icons-material/Edit";
 
-export default function RemoveTask({ id }) {
-  const { removeTask } = useTask();
+export default function EditTask({ id }) {
+  const { editTask } = useTask();
   function handleClick() {
-    removeTask(id);
+    editTask(id);
   }
   return (
     <>
@@ -16,22 +15,21 @@ export default function RemoveTask({ id }) {
         fullWidth
         variant="contained"
         type="submit"
-        color="error"
-        startIcon={<HighlightOffIcon />}
-        // startIcon={<DeleteForever />}
+        color="warning"
+        startIcon={<EditIcon />}
         onClick={handleClick}
       >
-        Remove
+        Edit
       </Button>
       <IconButton
         className=""
         size="small"
         variant="contained"
         type="submit"
-        color="error"
+        color="secondary"
         onClick={handleClick}
       >
-        <HighlightOffIcon />
+        <EditIcon />
       </IconButton>
     </>
   );

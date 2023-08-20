@@ -33,15 +33,12 @@ export function TaskProvider({ children }) {
   }, []);
 
   // add task to database
-  async function addTask(description) {
+  async function addTask(task) {
     try {
-      console.log(description);
-      console.log(JSON.stringify(description));
-
       const response = await fetch("http://localhost:5000/tasks", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(description),
+        body: JSON.stringify(task),
       });
       console.log(response);
       setTasks([task, ...tasks]);
