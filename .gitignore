@@ -13,8 +13,8 @@
 /build
 
 # misc
-/server/database.js
 /server/.env
+/to-do-list/.env
 .DS_Store
 .env.local
 .env.development.local
