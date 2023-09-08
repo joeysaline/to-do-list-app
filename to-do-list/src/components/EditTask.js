@@ -3,10 +3,25 @@ import { useTask } from "../TaskContext";
 import { Button, IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 
-export default function EditTask({ id }) {
-  const { editTask } = useTask();
+export default function EditTask({ props }) {
+  const { editor, setEditor } = useTask();
   function handleClick() {
-    editTask(id);
+    setEditor({ id: props.id, description: props.description, isEditing: true });
+  }
+  if (editor.isEditing) {
+    return (
+      <IconButton
+        disabled
+        className=""
+        size="small"
+        variant="contained"
+        type="submit"
+        color="secondary"
+        onClick={handleClick}
+      >
+        <EditIcon />
+      </IconButton>
+    );
   }
   return (
     <>

@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useTask } from "../TaskContext";
 import { Button, IconButton, TextField } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
 export default function AddTask() {
-  const { task, setTask, addTask } = useTask();
+  const { task, setTask, editor, addTask } = useTask();
   // const [description, setDescription] = useState("");
 
   function handleTaskStateChange(e) {
@@ -22,6 +22,38 @@ export default function AddTask() {
     }
   }
 
+  if (editor.isEditing) {
+    return (
+      <>
+        <form>
+          <div className="row">
+            <div className="col-1"></div>
+            <div className="col-9 col-md-10 col-xl-9">
+              <TextField
+                disabled
+                fullWidth
+                variant="standard"
+                type="text"
+                label="enter task"
+              />
+            </div>
+            <div className="align-self-end col-2 col-md-1 col-xl-2">
+              <IconButton
+                disabled
+                className=""
+                size="small"
+                variant="contained"
+                type="submit"
+                color="primary"
+              >
+                <AddIcon />
+              </IconButton>
+            </div>
+          </div>
+        </form>
+      </>
+    );
+  }
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -41,7 +73,7 @@ export default function AddTask() {
           </div>
           <div className="align-self-end col-2 col-md-1 col-xl-2">
             <Button
-            className="d-none"
+              className="d-none"
               fullWidth
               variant="contained"
               type="submit"

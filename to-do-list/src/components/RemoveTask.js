@@ -1,13 +1,27 @@
 import React from "react";
 import { useTask } from "../TaskContext";
 import { Button, IconButton } from "@mui/material";
-import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+// import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 // import DeleteForever from '@mui/icons-material/DeleteForever';
+// import CloseIcon from '@mui/icons-material/Close';
+// import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function RemoveTask({ id }) {
-  const { removeTask } = useTask();
+  const { editor, removeTask } = useTask();
   function handleClick() {
     removeTask(id);
+  }
+
+  if (editor.isEditing) {
+    return (
+        <IconButton
+          disabled
+          size="small"
+        >
+          <DeleteIcon />
+        </IconButton>
+    );
   }
   return (
     <>
@@ -17,8 +31,7 @@ export default function RemoveTask({ id }) {
         variant="contained"
         type="submit"
         color="error"
-        startIcon={<HighlightOffIcon />}
-        // startIcon={<DeleteForever />}
+        startIcon={<DeleteIcon />}
         onClick={handleClick}
       >
         Remove
@@ -31,7 +44,7 @@ export default function RemoveTask({ id }) {
         color="error"
         onClick={handleClick}
       >
-        <HighlightOffIcon />
+        <DeleteIcon />
       </IconButton>
     </>
   );

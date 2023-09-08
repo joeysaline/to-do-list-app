@@ -13,14 +13,25 @@ export function TaskProvider({ children }) {
     description: "",
   });
 
+  // task editor state
+  const [editor, setEditor] = useState({
+    id: "",
+    description: "",
+    isEditing: false
+  });
+
   // task list state
   const [tasks, setTasks] = useState([]);
+
+  // update needed state
+  const [update, setUpdate] = useState(false);
 
   // get tasks from database
   const getTasks = async () => {
     try {
       const response = await fetch("http://localhost:5000/tasks");
       const data = await response.json();
+      console.log(response);
       setTasks(data);
     } catch (error) {
       console.error(error.message);
@@ -30,7 +41,7 @@ export function TaskProvider({ children }) {
   // keep client task list up to date with database
   useEffect(() => {
     getTasks();
-  }, []);
+  }, [update]);
 
   // add task to database
   async function addTask(task) {
@@ -41,18 +52,53 @@ export function TaskProvider({ children }) {
         body: JSON.stringify(task),
       });
       console.log(response);
-      setTasks([task, ...tasks]);
+      // setTasks([task, ...tasks]);
+      setUpdate(prev => !prev);
     } catch (error) {
       console.error(error.message);
     }
   }
 
+  // remove task from database
   async function removeTask(id) {
     try {
       const response = await fetch(`http://localhost:5000/tasks/${id}`, {
         method: "DELETE",
       });
-      setTasks(tasks.filter((task) => task.id !== id));
+      console.log(response);
+      // setTasks(tasks.filter((task) => task.id !== id));
+      setUpdate(prev => !prev);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
+  // edit a task in database
+  async function editTask(task) {
+    try {
+      const response = await fetch(`http://localhost:5000/tasks/${task.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(task),
+      });
+      console.log(response);
+      // setTasks(tasks.filter((task) => task.id !== id));
+      setUpdate(prev => !prev);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
+  // mark a task as complete in database
+  async function completeTask(task) {
+    try {
+      const response = await fetch(`http://localhost:5000/tasks/complete/${task.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(task),
+      });
+      console.log(response);
+      setUpdate(prev => !prev);
     } catch (error) {
       console.error(error.message);
     }
@@ -61,9 +107,14 @@ export function TaskProvider({ children }) {
   const value = {
     task,
     setTask,
+    editor,
+    setEditor,
     tasks,
     addTask,
     removeTask,
+    editTask,
+    completeTask
   };
+
   return <TaskContext.Provider value={value}>{children}</TaskContext.Provider>;
 }

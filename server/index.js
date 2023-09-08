@@ -7,23 +7,11 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
+
 // Create task
 app.post("/tasks", async (req, res) => {
   try {
     const { description } = req.body;
-    const newTask = await pool.query(
-      "INSERT INTO tasks (description) VALUES($1) RETURNING *",
-      [description]
-    );
-    res.json(newTask.rows[0]);
-  } catch (err) {
-    console.error(err.message);
-  }
-});
-
-app.post("/tasks1", async (req, res) => {
-  try {
-    const description = req.body;
     const newTask = await pool.query(
       "INSERT INTO tasks (description) VALUES($1) RETURNING *",
       [description]
@@ -45,6 +33,7 @@ app.get("/tasks/:id", async (req, res) => {
     console.log(err.message);
   }
 });
+
 // Read all tasks
 app.get("/tasks", async (req, res) => {
   try {
@@ -54,6 +43,7 @@ app.get("/tasks", async (req, res) => {
     console.log(err.message);
   }
 });
+
 // Update a task
 app.put("/tasks/:id", async (req, res) => {
   try {
@@ -68,6 +58,22 @@ app.put("/tasks/:id", async (req, res) => {
     console.log(err.message);
   }
 });
+
+// Update a tasks completion
+app.put("/tasks/complete/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { complete } = req.body;
+    const updateTask = await pool.query(
+      "UPDATE tasks SET complete = $1 WHERE id = $2",
+      [complete, id]
+    );
+    res.json("Task updated");
+  } catch (err) {
+    console.log(err.message);
+  }
+});
+
 // Delete a task
 app.delete("/tasks/:id", async (req, res) => {
   try {
