@@ -28,7 +28,7 @@ export default function AddTask() {
         <form>
           <div className="row">
             <div className="col-1"></div>
-            <div className="col-9 col-md-10 col-xl-9">
+            <div className="col-9 px-1 px-sm-2">
               <TextField
                 disabled
                 fullWidth
@@ -37,7 +37,7 @@ export default function AddTask() {
                 label="enter task"
               />
             </div>
-            <div className="align-self-end col-2 col-md-1 col-xl-2">
+            <div className="align-self-end col-2 px-0 px-sm-1 px-md-2 px-lg-3">
               <IconButton
                 disabled
                 className=""
@@ -59,7 +59,7 @@ export default function AddTask() {
       <form onSubmit={handleSubmit}>
         <div className="row">
           <div className="col-1"></div>
-          <div className="col-9 col-md-10 col-xl-9">
+          <div className="col-9 px-1 px-sm-2">
             <TextField
               fullWidth
               variant="standard"
@@ -71,7 +71,7 @@ export default function AddTask() {
               // onChange={e => setDescription(e.target.value)}
             />
           </div>
-          <div className="align-self-end col-2 col-md-1 col-xl-2">
+          <div className="align-self-end col-2 px-0 px-sm-1 px-md-2 px-lg-3">
             <Button
               className="d-none"
               fullWidth

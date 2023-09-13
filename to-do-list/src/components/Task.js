@@ -26,7 +26,7 @@ export default function Task({ props }) {
       <form onSubmit={handleSubmit}>
         <div className="row pt-3">
           <div className="col-1"></div>
-          <div className="col-8 col-md-9">
+          <div className="col-9 px-1 px-sm-2">
             <TextField
               autoFocus
               fullWidth
@@ -37,7 +37,7 @@ export default function Task({ props }) {
               onChange={handleEditorStateChange}
             />
           </div>
-          <div className="align-self-end col-1">
+          <div className="col-1 px-0 px-sm-1 px-md-2 px-lg-3">
             <IconButton
               size="small"
               variant="contained"
@@ -47,7 +47,7 @@ export default function Task({ props }) {
               <DoneIcon />
             </IconButton>
           </div>
-          <div className="align-self-end col-2 col-md-1">
+          <div className="col-1 px-0 px-sm-1 px-md-2 px-lg-3">
             <IconButton
               size="small"
               variant="contained"
@@ -63,16 +63,16 @@ export default function Task({ props }) {
   }
   return (
     <div className="row pt-3">
-      <div className="col-1 align-self-center text-center">
+      <div className="col-1 align-self-center px-0 px-sm-1 px-md-2 px-lg-3">
         <CompleteTask props={props}/>
       </div>
-      <div className="col-8 col-md-9 align-self-center" id="taskDescription">
+      <div className="col-9 align-self-center px-1 px-sm-2" id="taskDescription">
         {props.description}
       </div>
-      <div className="col-1 align-self-center">
+      <div className="col-1 align-self-center px-0 px-sm-1 px-md-2 px-lg-3">
         <EditTask props={props}/>
       </div>
-      <div className="col-2 col-md-1 align-self-center">
+      <div className="col-1 align-self-center px-0 px-sm-1 px-md-2 px-lg-3">
         <RemoveTask id={props.id}/>
       </div>
     </div>

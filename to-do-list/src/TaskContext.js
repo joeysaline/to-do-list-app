@@ -29,7 +29,7 @@ export function TaskProvider({ children }) {
   // get tasks from database
   const getTasks = async () => {
     try {
-      const response = await fetch("http://localhost:5000/tasks");
+      const response = await fetch(`http://${process.env.REACT_APP_ADDRESS}:5000/tasks`);
       const data = await response.json();
       console.log(response);
       setTasks(data);
@@ -46,7 +46,7 @@ export function TaskProvider({ children }) {
   // add task to database
   async function addTask(task) {
     try {
-      const response = await fetch("http://localhost:5000/tasks", {
+      const response = await fetch(`http://${process.env.REACT_APP_ADDRESS}:5000/tasks`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(task),
@@ -62,7 +62,7 @@ export function TaskProvider({ children }) {
   // remove task from database
   async function removeTask(id) {
     try {
-      const response = await fetch(`http://localhost:5000/tasks/${id}`, {
+      const response = await fetch(`http://${process.env.REACT_APP_ADDRESS}:5000/tasks/${id}`, {
         method: "DELETE",
       });
       console.log(response);
@@ -76,7 +76,7 @@ export function TaskProvider({ children }) {
   // edit a task in database
   async function editTask(task) {
     try {
-      const response = await fetch(`http://localhost:5000/tasks/${task.id}`, {
+      const response = await fetch(`http://${process.env.REACT_APP_ADDRESS}:5000/tasks/${task.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(task),
@@ -92,7 +92,7 @@ export function TaskProvider({ children }) {
   // mark a task as complete in database
   async function completeTask(task) {
     try {
-      const response = await fetch(`http://localhost:5000/tasks/complete/${task.id}`, {
+      const response = await fetch(`http://${process.env.REACT_APP_ADDRESS}:5000/tasks/complete/${task.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(task),
