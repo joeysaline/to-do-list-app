@@ -9,6 +9,7 @@ The functional requirements that have been met include:
   1. A persistent task list that is shared for all users visiting the site.
   2. An edit task function that can update the entry for a task, and the user can cancel this action at any point.
   3. A complete task function that displays a checkbox designating the status of a task, a user can mark or un-mark this checkbox.
+
 The non-functional requirements that have been met include:
   1. A Postgresql RDBMS was created to store the tasks.
   2. A server was created to listen for calls to the API endpoints to modify the state of the database.
