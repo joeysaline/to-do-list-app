@@ -1,14 +1,17 @@
 # to-do-list-app
-A web application that serves as a to-do list, where you can add, edit, complete, and remove tasks from the list.
+A web application that functions as a to-do list.
 
 This application can be used by visiting the website http://3.128.255.186:4000/
 
-09/13/2023.
+09/14/2023.
 This application is currently in phase 2. 
 The functional requirements that have been met include:
   1. A persistent task list that is shared for all users visiting the site.
   2. An edit task function that can update the entry for a task, and the user can cancel this action at any point.
   3. A complete task function that displays a checkbox designating the status of a task, a user can mark or un-mark this checkbox.
+The non-functional requirements that have been met include:
+  1. A Postgresql RDBMS was created to store the tasks.
+  2. A server was created to listen for calls to the API endpoints to modify the state of the database.
 
 04/26/2023.
 This is currently in phase 1, a proof of concept. The functionality is limited, and design was kept minimal in order to allow for future change.
