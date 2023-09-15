@@ -1,25 +1,16 @@
 # to-do-list-app
 A web application that functions as a to-do list.
+App: http://3.128.255.186:4000/
 
-This application can be used by visiting the website http://3.128.255.186:4000/
-
-09/14/2023.
-This application is currently in phase 2. 
-The functional requirements that have been met include:
+09/14/2023 - Phase 2 (Minimum Viable Product)
+New functional requirements that have been met:
   1. A persistent task list that is shared for all users visiting the site.
-  2. An edit task function that can update the entry for a task, and the user can cancel this action at any point.
-  3. A complete task function that displays a checkbox designating the status of a task, a user can mark or un-mark this checkbox.
-
-The non-functional requirements that have been met include:
+  2. The ability to edit a task, which disables all other functions during editing. The user can cancel editing at any point.
+  3. The ability to mark a task as complete, which displays a checkbox representing its status. The user can also unmark or mark a task as incomplete.
+Non-functional requirements that have been met:
   1. A Postgresql RDBMS was created to store the tasks.
-  2. A server was created to listen for calls to the API endpoints to modify the state of the database.
+  2. A server was created to listen for calls to the API endpoints to modify the state of the database. All client requests are implemented fully with the RDBMS (Create, Read, Update, Delete).
 
-04/26/2023.
-This is currently in phase 1, a proof of concept. The functionality is limited, and design was kept minimal in order to allow for future change.
-I utilized the React javascript framework for all functionality, and Bootstrap/React-Bootstrap for all user interface and design elements.
-To run phase 1 on your own device locally, please follow these steps:
-  1. Clone repository
-  2. In terminal, navigate to the repository
-  3. Navigate to the folder 'to-do-list' (this is the actual React app folder)
-  4. Type command 'npm start' and press enter
-  5. Will run the react script on your local host port 3000 and will automatically open in your default web browser
+04/26/2023 - Phase 1 (Proof of Concept)
+Functional Requirements Met - (task list initially empty, user can create a task, delete a task, and upon refresh the task list will be reset)
+Non-functional Requirements Met - (client-side only, web-based, cross-browser compatible, responsive to all device sizes)
