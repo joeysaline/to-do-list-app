@@ -1,7 +1,7 @@
 import React from "react";
 import TaskList from "./components/TaskList";
 import AddTask from "./components/AddTask";
-import { TaskProvider, useTask } from "./TaskContext";
+import { TaskProvider } from "./TaskContext";
 
 function App() {
   return (

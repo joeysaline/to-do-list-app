@@ -1,43 +1,24 @@
 import React from "react";
 import { useTask } from "../TaskContext";
-import { Button, IconButton } from "@mui/material";
+import { IconButton } from "@mui/material";
 // import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 // import DeleteForever from '@mui/icons-material/DeleteForever';
 // import CloseIcon from '@mui/icons-material/Close';
 // import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export default function RemoveTask({ id }) {
   const { editor, removeTask } = useTask();
+
   function handleClick() {
     removeTask(id);
   }
 
-  if (editor.isEditing) {
-    return (
-        <IconButton
-          disabled
-          size="small"
-        >
-          <DeleteIcon />
-        </IconButton>
-    );
-  }
   return (
     <>
-      <Button
-        className="d-none"
-        fullWidth
-        variant="contained"
-        type="submit"
-        color="error"
-        startIcon={<DeleteIcon />}
-        onClick={handleClick}
-      >
-        Remove
-      </Button>
       <IconButton
-        className=""
+        data-testid='remove-button'
+        disabled={editor.isEditing ? true : false}
         size="small"
         variant="contained"
         type="submit"
