@@ -11,6 +11,7 @@ export function TaskProvider({ children }) {
   const [task, setTask] = useState({
     id: "",
     description: "",
+    complete: ""
   });
 
   // task editor state
@@ -22,9 +23,6 @@ export function TaskProvider({ children }) {
 
   // task list state
   const [tasks, setTasks] = useState([]);
-
-  // update needed state
-  const [update, setUpdate] = useState(false);
 
   // get tasks from database
   const getTasks = async () => {
@@ -38,11 +36,6 @@ export function TaskProvider({ children }) {
     }
   };
 
-  // keep client task list up to date with database
-  useEffect(() => {
-    getTasks();
-  }, [update]);
-
   // add task to database
   async function addTask(task) {
     try {
@@ -52,8 +45,7 @@ export function TaskProvider({ children }) {
         body: JSON.stringify(task),
       });
       console.log(response);
-      // setTasks([task, ...tasks]);
-      setUpdate(prev => !prev);
+      setTasks([task, ...tasks]);
     } catch (error) {
       console.error(error.message);
     }
@@ -66,8 +58,7 @@ export function TaskProvider({ children }) {
         method: "DELETE",
       });
       console.log(response);
-      // setTasks(tasks.filter((task) => task.id !== id));
-      setUpdate(prev => !prev);
+      setTasks(tasks.filter((task) => task.id !== id));
     } catch (error) {
       console.error(error.message);
     }
@@ -76,14 +67,13 @@ export function TaskProvider({ children }) {
   // edit a task in database
   async function editTask(task) {
     try {
-      const response = await fetch(`http://${process.env.REACT_APP_ADDRESS}:5000/tasks/${task.id}`, {
+      const response = await fetch(`http://${process.env.REACT_APP_ADDRESS}:5000/tasks/description`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(task),
       });
       console.log(response);
-      // setTasks(tasks.filter((task) => task.id !== id));
-      setUpdate(prev => !prev);
+      getTasks();
     } catch (error) {
       console.error(error.message);
     }
@@ -98,12 +88,15 @@ export function TaskProvider({ children }) {
         body: JSON.stringify(task),
       });
       console.log(response);
-      setUpdate(prev => !prev);
+      getTasks();
     } catch (error) {
       console.error(error.message);
     }
   }
 
+  useEffect(() => {
+    getTasks();
+  }, []);
   const value = {
     task,
     setTask,

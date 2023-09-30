@@ -14,7 +14,8 @@ export default function AddTask() {
   function handleSubmit(e) {
     e.preventDefault();
     if (task.description.trim()) {
-      addTask({ ...task, id: uuidv4() });
+      addTask(task);
+      addTask({ ...task, id: uuidv4(), complete: false });
       setTask({ ...task, description: "" });
     }
   }
