@@ -8,14 +8,18 @@ export default function CompleteTask({ props }) {
   const { editor, completeTask } = useTask();
 
   function handleClick() {
-    props.complete
-      ? completeTask({ ...props, complete: false })
-      : completeTask({ ...props, complete: true });
+    if (props.complete) {
+      completeTask({ ...props, complete: false });
+      props.complete = false;
+    } else {
+      completeTask({ ...props, complete: true });
+      props.complete = true;
+    }
   }
 
   return (
     <IconButton
-      data-testid='complete-button'
+      data-testid="complete-button"
       disabled={editor.isEditing ? true : false}
       size="small"
       color="primary"

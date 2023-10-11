@@ -73,7 +73,7 @@ export function TaskProvider({ children }) {
         body: JSON.stringify(task),
       });
       console.log(response);
-      getTasks();
+      // getTasks();
     } catch (error) {
       console.error(error.message);
     }
@@ -88,7 +88,7 @@ export function TaskProvider({ children }) {
         body: JSON.stringify(task),
       });
       console.log(response);
-      getTasks();
+      // getTasks();
     } catch (error) {
       console.error(error.message);
     }

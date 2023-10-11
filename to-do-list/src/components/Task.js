@@ -17,6 +17,7 @@ export default function Task({ props }) {
   function handleSubmit(e) {
     e.preventDefault();
     editTask({...props, description: editor.description});
+    props.description = editor.description;
     setEditor({ description: "" });
   }
   function handleCancel(e) {
