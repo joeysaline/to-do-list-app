@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useTask } from "../TaskContext";
 import { IconButton, TextField } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
 export default function AddTask() {
-  const { task, setTask, editor, addTask } = useTask();
+  const { editor, addTask } = useTask();
+  const [ task, setTask ] = useState({
+    id: "",
+    description: "",
+    complete: false,
+  });
 
   function handleTaskStateChange(e) {
     setTask({ ...task, description: e.target.value });
@@ -14,15 +19,18 @@ export default function AddTask() {
   function handleSubmit(e) {
     e.preventDefault();
     if (task.description.trim()) {
-      addTask(task);
-      addTask({ ...task, id: uuidv4(), complete: false });
+      addTask({ ...task, id: uuidv4() });
       setTask({ ...task, description: "" });
     }
   }
 
   return (
     <>
-      <form onSubmit={handleSubmit} disabled={editor.isEditing ? true : false} data-testid='add-task'>
+      <form
+        onSubmit={handleSubmit}
+        disabled={editor.isEditing ? true : false}
+        data-testid="add-task"
+      >
         <div className="row">
           <div className="col-1"></div>
           <div className="col-9 px-1 px-sm-2">

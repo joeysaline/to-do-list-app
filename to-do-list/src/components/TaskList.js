@@ -7,8 +7,8 @@ export default function TaskList() {
   return (
     <>
       <div data-testid="task-list" className="pb-5">
-        {tasks.map((item) => (
-          <Task key={item.id} props={item} />
+        {tasks.map((task) => (
+          <Task key={task.id} props={task} />
         ))}
       </div>
     </>

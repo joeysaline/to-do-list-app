@@ -19,7 +19,7 @@ describe("add task functionality", () => {
       date.getSeconds();
     cy.visit("/");
     cy.findByRole("textbox", { name: /enter task/i }).type(task);
-    cy.findByRole("form").submit();
+    cy.findByTestId('add-task').submit();
     cy.findByText(`${task}`).should("be.visible");
   });
   it("user can add a task with button", () => {

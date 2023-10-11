@@ -7,11 +7,11 @@ import { IconButton } from "@mui/material";
 // import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import DeleteIcon from "@mui/icons-material/Delete";
 
-export default function RemoveTask({ id }) {
+export default function RemoveTask({ props }) {
   const { editor, removeTask } = useTask();
 
   function handleClick() {
-    removeTask(id);
+    removeTask(props);
   }
 
   return (

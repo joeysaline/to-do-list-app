@@ -8,13 +8,9 @@ export default function CompleteTask({ props }) {
   const { editor, completeTask } = useTask();
 
   function handleClick() {
-    if (props.complete) {
-      completeTask({ ...props, complete: false });
-      props.complete = false;
-    } else {
-      completeTask({ ...props, complete: true });
-      props.complete = true;
-    }
+    props.complete
+      ? completeTask({ ...props, complete: false })
+      : completeTask({ ...props, complete: true });
   }
 
   return (
