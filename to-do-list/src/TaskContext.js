@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useReducer, useEffect } from "react";
+import taskReducer, { ACTIONS, INITIAL_STATE } from "./taskReducer";
 
 const TaskContext = React.createContext();
 
@@ -7,67 +8,63 @@ export function useTask() {
 }
 
 export function TaskProvider({ children }) {
-  // task state
-  const [task, setTask] = useState({
-    id: "",
-    description: "",
-  });
-
-  // task editor state
-  const [editor, setEditor] = useState({
-    id: "",
-    description: "",
-    isEditing: false
-  });
-
-  // task list state
-  const [tasks, setTasks] = useState([]);
-
-  // update needed state
-  const [update, setUpdate] = useState(false);
+  const [state, dispatch] = useReducer(taskReducer, INITIAL_STATE);
 
   // get tasks from database
-  const getTasks = async () => {
+  async function getTasks() {
     try {
-      const response = await fetch(`http://${process.env.REACT_APP_ADDRESS}:5000/tasks`);
+      const response = await fetch(
+        `http://${process.env.REACT_APP_ADDRESS}:5000/tasks`
+      );
       const data = await response.json();
       console.log(response);
-      setTasks(data);
+      // update state
+      dispatch({
+        type: ACTIONS.SET,
+        payload: data,
+      });
     } catch (error) {
       console.error(error.message);
     }
-  };
-
-  // keep client task list up to date with database
-  useEffect(() => {
-    getTasks();
-  }, [update]);
+  }
 
   // add task to database
   async function addTask(task) {
     try {
-      const response = await fetch(`http://${process.env.REACT_APP_ADDRESS}:5000/tasks`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(task),
-      });
+      const response = await fetch(
+        `http://${process.env.REACT_APP_ADDRESS}:5000/tasks`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(task),
+        }
+      );
       console.log(response);
-      // setTasks([task, ...tasks]);
-      setUpdate(prev => !prev);
+      // update state
+      dispatch({
+        type: ACTIONS.ADD,
+        payload: task,
+      });
     } catch (error) {
       console.error(error.message);
     }
   }
 
   // remove task from database
-  async function removeTask(id) {
+  async function removeTask(task) {
     try {
-      const response = await fetch(`http://${process.env.REACT_APP_ADDRESS}:5000/tasks/${id}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `http://${process.env.REACT_APP_ADDRESS}:5000/tasks/${task.id}`,
+        {
+          method: "DELETE",
+        }
+      );
       console.log(response);
-      // setTasks(tasks.filter((task) => task.id !== id));
-      setUpdate(prev => !prev);
+      // update state
+      dispatch({
+        type: ACTIONS.DELETE,
+        payload: task,
+      });
     } catch (error) {
       console.error(error.message);
     }
@@ -76,14 +73,20 @@ export function TaskProvider({ children }) {
   // edit a task in database
   async function editTask(task) {
     try {
-      const response = await fetch(`http://${process.env.REACT_APP_ADDRESS}:5000/tasks/${task.id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(task),
-      });
+      const response = await fetch(
+        `http://${process.env.REACT_APP_ADDRESS}:5000/tasks/description`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(task),
+        }
+      );
       console.log(response);
-      // setTasks(tasks.filter((task) => task.id !== id));
-      setUpdate(prev => !prev);
+      // update state
+      dispatch({
+        type: ACTIONS.EDIT,
+        payload: task,
+      });
     } catch (error) {
       console.error(error.message);
     }
@@ -92,28 +95,37 @@ export function TaskProvider({ children }) {
   // mark a task as complete in database
   async function completeTask(task) {
     try {
-      const response = await fetch(`http://${process.env.REACT_APP_ADDRESS}:5000/tasks/complete/${task.id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(task),
-      });
+      const response = await fetch(
+        `http://${process.env.REACT_APP_ADDRESS}:5000/tasks/complete/${task.id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(task),
+        }
+      );
       console.log(response);
-      setUpdate(prev => !prev);
+      // update state
+      dispatch({
+        type: ACTIONS.COMPLETE,
+        payload: task,
+      });
     } catch (error) {
       console.error(error.message);
     }
   }
 
+  useEffect(() => {
+    getTasks();
+  }, []);
+
   const value = {
-    task,
-    setTask,
-    editor,
-    setEditor,
-    tasks,
+    dispatch,
+    tasks: state.tasks,
+    editor: state.editor,
     addTask,
     removeTask,
     editTask,
-    completeTask
+    completeTask,
   };
 
   return <TaskContext.Provider value={value}>{children}</TaskContext.Provider>;

@@ -11,10 +11,10 @@ app.use(express.json());
 // Create task
 app.post("/tasks", async (req, res) => {
   try {
-    const { description } = req.body;
+    const { id, description, complete } = req.body;
     const newTask = await pool.query(
-      "INSERT INTO tasks (description) VALUES($1) RETURNING *",
-      [description]
+      "INSERT INTO tasks (id, description, complete) VALUES($1, $2, $3) RETURNING *",
+      [id, description, complete]
     );
     res.json(newTask.rows[0]);
   } catch (err) {
@@ -37,7 +37,7 @@ app.get("/tasks/:id", async (req, res) => {
 // Read all tasks
 app.get("/tasks", async (req, res) => {
   try {
-    const allTasks = await pool.query("SELECT * FROM tasks ORDER BY id DESC");
+    const allTasks = await pool.query("SELECT * FROM tasks ORDER BY index DESC");
     res.json(allTasks.rows);
   } catch (err) {
     console.log(err.message);
@@ -45,15 +45,14 @@ app.get("/tasks", async (req, res) => {
 });
 
 // Update a task
-app.put("/tasks/:id", async (req, res) => {
+app.put("/tasks/description", async (req, res) => {
   try {
-    const { id } = req.params;
-    const { description } = req.body;
+    const { id, description } = req.body;
     const updateTask = await pool.query(
-      "UPDATE tasks SET description = $1 WHERE id = $2",
+      "UPDATE tasks SET description = $1 WHERE id = $2 RETURNING *",
       [description, id]
     );
-    res.json("Task updated");
+    res.json(updateTask.rows[0]);
   } catch (err) {
     console.log(err.message);
   }
@@ -65,10 +64,10 @@ app.put("/tasks/complete/:id", async (req, res) => {
     const { id } = req.params;
     const { complete } = req.body;
     const updateTask = await pool.query(
-      "UPDATE tasks SET complete = $1 WHERE id = $2",
+      "UPDATE tasks SET complete = $1 WHERE id = $2 RETURNING *",
       [complete, id]
     );
-    res.json("Task updated");
+    res.json(updateTask.rows[0]);
   } catch (err) {
     console.log(err.message);
   }

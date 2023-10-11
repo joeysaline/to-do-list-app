@@ -6,23 +6,33 @@ import DoneIcon from "@mui/icons-material/Done";
 import { useTask } from "../TaskContext";
 import CompleteTask from "./CompleteTask";
 import DoDisturbIcon from "@mui/icons-material/DoDisturb";
+import { ACTIONS } from "../taskReducer";
 
 export default function Task({ props }) {
-  const { editor, setEditor, editTask } = useTask();
+  const { editor, editTask, dispatch } = useTask();
 
   function handleEditorStateChange(e) {
-    setEditor({ ...editor, description: e.target.value });
+    dispatch({
+      type: ACTIONS.SET_EDITOR,
+      payload: { ...editor, description: e.target.value },
+    });
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    editTask(editor);
-    setEditor({ description: "" });
+    editTask({ ...props, description: editor.description });
+    props.description = editor.description;
+    dispatch({
+      type: ACTIONS.RESET_EDITOR,
+    });
   }
-  function handleCancel(e) {
-    setEditor({ description: "" });
+
+  function handleCancel() {
+    dispatch({
+      type: ACTIONS.RESET_EDITOR,
+    });
   }
-  
+
   if (editor.isEditing && editor.id === props.id) {
     return (
       <form onSubmit={handleSubmit}>
@@ -30,7 +40,7 @@ export default function Task({ props }) {
           <div className="col-1"></div>
           <div className="col-9 px-1 px-sm-2">
             <TextField
-              data-testid='editor-textbox'
+              data-testid="editor-textbox"
               autoFocus
               fullWidth
               variant="standard"
@@ -42,7 +52,7 @@ export default function Task({ props }) {
           </div>
           <div className="col-1 px-0 px-sm-1 px-md-2 px-lg-3">
             <IconButton
-              data-testid='editor-done-button'
+              data-testid="editor-done-button"
               size="small"
               variant="contained"
               type="submit"
@@ -53,7 +63,7 @@ export default function Task({ props }) {
           </div>
           <div className="col-1 px-0 px-sm-1 px-md-2 px-lg-3">
             <IconButton
-              data-testid='editor-cancel-button'
+              data-testid="editor-cancel-button"
               size="small"
               variant="contained"
               color="error"
@@ -81,7 +91,7 @@ export default function Task({ props }) {
         <EditTask props={props} />
       </div>
       <div className="col-1 align-self-center px-0 px-sm-1 px-md-2 px-lg-3">
-        <RemoveTask id={props.id} />
+        <RemoveTask props={props} />
       </div>
     </div>
   );

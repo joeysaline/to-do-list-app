@@ -15,7 +15,7 @@ export default function CompleteTask({ props }) {
 
   return (
     <IconButton
-      data-testid='complete-button'
+      data-testid="complete-button"
       disabled={editor.isEditing ? true : false}
       size="small"
       color="primary"
