@@ -11,6 +11,8 @@ export const INITIAL_STATE = {
     isEditing: false,
   },
   tasks: [],
+  user: "",
+  folder: "",
 };
 
 export const ACTIONS = {
@@ -21,6 +23,7 @@ export const ACTIONS = {
   COMPLETE: "TOGGLE_COMPLETE",
   SET_EDITOR: "SET_EDITOR",
   RESET_EDITOR: "RESET_EDITOR",
+  SET_USER: "SET_USER",
 };
 
 const taskReducer = (state, action) => {
@@ -69,10 +72,10 @@ const taskReducer = (state, action) => {
         ...state,
         editor: payload,
       };
-    case ACTIONS.RESET_EDITOR:
-      console.log(ACTIONS.RESET_EDITOR, payload);
-      return {
-        ...state,
+      case ACTIONS.RESET_EDITOR:
+        console.log(ACTIONS.RESET_EDITOR, payload);
+        return {
+          ...state,
         editor: {
           id: "",
           description: "",
@@ -80,6 +83,12 @@ const taskReducer = (state, action) => {
           isEditing: false,
         },
       };
+      case ACTIONS.SET_USER:
+        console.log(ACTIONS.SET_USER, payload);
+        return {
+          ...state,
+          user: payload,
+        };
     default:
       throw new Error(`No action defined for type ${type}.`);
   }

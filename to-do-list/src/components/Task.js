@@ -3,7 +3,7 @@ import RemoveTask from "./RemoveTask";
 import EditTask from "./EditTask";
 import { IconButton, TextField } from "@mui/material";
 import DoneIcon from "@mui/icons-material/Done";
-import { useTask } from "../TaskContext";
+import { useTask } from "../contexts/TaskContext";
 import CompleteTask from "./CompleteTask";
 import DoDisturbIcon from "@mui/icons-material/DoDisturb";
 import { ACTIONS } from "../taskReducer";

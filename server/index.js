@@ -11,10 +11,10 @@ app.use(express.json());
 // Create task
 app.post("/tasks", async (req, res) => {
   try {
-    const { id, description, complete } = req.body;
+    const { id, description, complete, user_id } = req.body;
     const newTask = await pool.query(
-      "INSERT INTO tasks (id, description, complete) VALUES($1, $2, $3) RETURNING *",
-      [id, description, complete]
+      "INSERT INTO tasks (id, description, complete, user_id) VALUES($1, $2, $3, $4) RETURNING *",
+      [id, description, complete, user_id]
     );
     res.json(newTask.rows[0]);
   } catch (err) {
@@ -22,22 +22,23 @@ app.post("/tasks", async (req, res) => {
   }
 });
 
-// Read a task
-app.get("/tasks/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const task = await pool.query("SELECT * FROM tasks WHERE id = $1", [id]);
+// // Read a task
+// app.get("/tasks/:id", async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const task = await pool.query("SELECT * FROM tasks WHERE id = $1", [id]);
 
-    res.json(task.rows[0]);
-  } catch (err) {
-    console.log(err.message);
-  }
-});
+//     res.json(task.rows[0]);
+//   } catch (err) {
+//     console.log(err.message);
+//   }
+// });
 
-// Read all tasks
-app.get("/tasks", async (req, res) => {
+// Read all tasks for a user
+app.get("/tasks/:user_id", async (req, res) => {
   try {
-    const allTasks = await pool.query("SELECT * FROM tasks ORDER BY index DESC");
+    const {user_id} = req.params;
+    const allTasks = await pool.query("SELECT * FROM tasks WHERE user_id = $1 ORDER BY index DESC", [user_id]);
     res.json(allTasks.rows);
   } catch (err) {
     console.log(err.message);
