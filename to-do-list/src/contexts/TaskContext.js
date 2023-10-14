@@ -16,7 +16,7 @@ export function TaskProvider({ children }) {
   async function getTasks() {
     try {
       const response = await fetch(
-        `http://${process.env.REACT_APP_ADDRESS}:5000/tasks/${user.email}`
+        `http://${process.env.REACT_APP_ADDRESS}:5000/tasks/${user.uid}`
       );
       const data = await response.json();
       console.log(response);
@@ -124,6 +124,7 @@ export function TaskProvider({ children }) {
     dispatch,
     tasks: state.tasks,
     editor: state.editor,
+    user: state.user,
     addTask,
     removeTask,
     editTask,

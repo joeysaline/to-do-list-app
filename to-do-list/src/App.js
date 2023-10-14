@@ -4,20 +4,19 @@ import AddTask from "./components/AddTask";
 import { useAuth } from "./contexts/AuthContext";
 import { TaskProvider } from "./contexts/TaskContext";
 import Logout from "./auth/Logout";
-import { useNavigate } from "react-router-dom";
 import LogIn from "./auth/LogIn";
 
 function App() {
-  const { user, loading } = useAuth();
-  // const navigate = useNavigate();
+  const { user } = useAuth();
   return (
     <>
-      {loading && <p>Loading...</p>}
-      {!loading && user === null && <LogIn />}
-      {!loading && user !== null && (
+      {user === null && <LogIn />}
+      {user !== null && (
         <TaskProvider>
-          {JSON.stringify(user)}
+          {/* {JSON.stringify(user)} */}
           <Logout />
+          {" currently signed in as "}
+          {user.email}
           <main className="container">
             <h1 className="text-center pt-3">To Do</h1>
             <AddTask></AddTask>

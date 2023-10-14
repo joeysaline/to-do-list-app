@@ -12,7 +12,7 @@ export default function AddTask() {
     id: "",
     description: "",
     complete: false,
-    user_id: user.email,
+    user_id: user.uid,
   });
 
   function handleTaskStateChange(e) {

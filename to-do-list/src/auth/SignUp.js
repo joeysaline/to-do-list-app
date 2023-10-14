@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -24,11 +24,10 @@ function Copyright(props) {
       align="center"
       {...props}
     >
-      {"Template by the "}
+      {"Template from "}
       <Link color="inherit" href="https://mui.com/" target="_blank">
-        MUI
+        Material UI
       </Link>
-      {" team."}
     </Typography>
   );
 }
@@ -36,25 +35,21 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const passwordConfirmationRef = useRef();
-  const { signup, setIsLoggedIn, setLoading } = useAuth();
+  const { signup, setLoading } = useAuth();
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
   async function handleSubmit(e) {
     e.preventDefault();
-
-    if (passwordRef.current.value !== passwordConfirmationRef.current.value) {
+    const data = new FormData(e.currentTarget);
+    if (data.get('password') !== data.get('passwordConfirmation')) {
       return setError("Passwords do not match");
     }
 
     try {
       setError("");
       setLoading(true);
-      await signup(emailRef.current.value, passwordRef.current.value);
-      setIsLoggedIn(true);
+      await signup(data.get('email'), data.get('password'));
       navigate("/");
     } catch (error) {
       setError("Failed to create an account");
@@ -97,7 +92,6 @@ export default function SignUp() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
-                  ref={emailRef}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -109,7 +103,6 @@ export default function SignUp() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
-                  ref={passwordRef}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -121,7 +114,6 @@ export default function SignUp() {
                   type="password"
                   id="passwordConfirmation"
                   autoComplete="new-password"
-                  ref={passwordConfirmationRef}
                 />
               </Grid>
               <Grid item xs={12}>

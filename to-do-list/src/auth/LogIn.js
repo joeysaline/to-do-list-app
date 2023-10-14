@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -24,11 +24,10 @@ function Copyright(props) {
       align="center"
       {...props}
     >
-      {"Template by the "}
+      {"Template from "}
       <Link color="inherit" href="https://mui.com/" target="_blank">
-        MUI
+        Material UI
       </Link>
-      {" team."}
     </Typography>
   );
 }
@@ -36,24 +35,31 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function LogIn() {
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const { login, setLoading } = useAuth();
+  const { login } = useAuth();
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
   async function handleSubmit(e) {
     e.preventDefault();
-
+    const data = new FormData(e.currentTarget);
     try {
       setError("");
-      setLoading(true);
-      await login(emailRef.current.value, passwordRef.current.value);
+      await login(data.get('email'), data.get('password'));
       navigate("/");
-    } catch {
-      setError("Failed to log in");
+    } catch(error) {
+      console.log(error.code);
+      switch (error.code) {
+        case 'auth/invalid-login-credentials':
+          setError('Email or password incorrect');
+          break;
+        case 'auth/too-many-requests':
+          setError('Too many incorrect attempts, please try again later');
+          break;
+        default:
+          setError("Failed to log in. Please try again later");
+          break;
+      }
     }
-    setLoading(false);
   }
 
   return (
@@ -90,7 +96,6 @@ export default function LogIn() {
               name="email"
               autoComplete="email"
               autoFocus
-              ref={emailRef}
             />
             <TextField
               margin="normal"
@@ -101,7 +106,6 @@ export default function LogIn() {
               type="password"
               id="password"
               autoComplete="current-password"
-              ref={passwordRef}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -117,13 +121,13 @@ export default function LogIn() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link href="forgotpassword" variant="body2">
                   Forgot password?
                 </Link>
               </Grid>
               <Grid item>
                 <Link href="signup" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                  Don't have an account? Sign Up
                 </Link>
               </Grid>
             </Grid>
