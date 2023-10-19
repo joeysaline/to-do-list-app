@@ -3,8 +3,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -16,46 +14,31 @@ import { useAuth } from "../contexts/AuthContext";
 import { Alert } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Template from "}
-      <Link color="inherit" href="https://mui.com/" target="_blank">
-        Material UI
-      </Link>
-    </Typography>
-  );
-}
-
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-  const { signup, setLoading } = useAuth();
+  const { signup } = useAuth();
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
   async function handleSubmit(e) {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
-    if (data.get('password') !== data.get('passwordConfirmation')) {
+    if (data.get("password") !== data.get("passwordConfirmation")) {
       return setError("Passwords do not match");
+    }
+    if (data.get("password").length < 6) {
+      return setError("Password must be at least 6 characters long");
     }
 
     try {
       setError("");
-      setLoading(true);
-      await signup(data.get('email'), data.get('password'));
+      await signup(data.get("email"), data.get("password"));
       navigate("/");
     } catch (error) {
       setError("Failed to create an account");
       console.log(error.message);
     }
-    setLoading(false);
   }
 
   return (
@@ -99,7 +82,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   name="password"
-                  label="Password"
+                  label="Password (must be at least 6 characters)"
                   type="password"
                   id="password"
                   autoComplete="new-password"
@@ -114,14 +97,6 @@ export default function SignUp() {
                   type="password"
                   id="passwordConfirmation"
                   autoComplete="new-password"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox value="allowExtraEmails" color="primary" />
-                  }
-                  label="I allow contact for password retrieval via email."
                 />
               </Grid>
             </Grid>
@@ -142,7 +117,6 @@ export default function SignUp() {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
       </Container>
     </ThemeProvider>
   );

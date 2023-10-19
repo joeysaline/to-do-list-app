@@ -3,8 +3,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -15,22 +13,6 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useAuth } from "../contexts/AuthContext";
 import { Alert } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Template from "}
-      <Link color="inherit" href="https://mui.com/" target="_blank">
-        Material UI
-      </Link>
-    </Typography>
-  );
-}
 
 const defaultTheme = createTheme();
 
@@ -44,16 +26,16 @@ export default function LogIn() {
     const data = new FormData(e.currentTarget);
     try {
       setError("");
-      await login(data.get('email'), data.get('password'));
+      await login(data.get("email"), data.get("password"));
       navigate("/");
-    } catch(error) {
+    } catch (error) {
       console.log(error.code);
       switch (error.code) {
-        case 'auth/invalid-login-credentials':
-          setError('Email or password incorrect');
+        case "auth/invalid-login-credentials":
+          setError("Email or password incorrect");
           break;
-        case 'auth/too-many-requests':
-          setError('Too many incorrect attempts, please try again later');
+        case "auth/too-many-requests":
+          setError("Too many incorrect attempts, please try again later");
           break;
         default:
           setError("Failed to log in. Please try again later");
@@ -107,10 +89,6 @@ export default function LogIn() {
               id="password"
               autoComplete="current-password"
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
             <Button
               type="submit"
               fullWidth
@@ -133,7 +111,6 @@ export default function LogIn() {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
   );

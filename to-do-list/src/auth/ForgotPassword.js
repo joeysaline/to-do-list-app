@@ -13,27 +13,11 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useAuth } from "../contexts/AuthContext";
 import { Alert } from "@mui/material";
 
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Template from "}
-      <Link color="inherit" href="https://mui.com/" target="_blank">
-        Material UI
-      </Link>
-    </Typography>
-  );
-}
-
 const defaultTheme = createTheme();
 
 export default function ForgotPassword() {
-  const [email, setEmail] = useState("");
   const { resetPassword } = useAuth();
+  const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
 
@@ -45,7 +29,7 @@ export default function ForgotPassword() {
       setError("");
       await resetPassword(email);
       setMessage(
-        "Please check your inbox for instructions to reset your password"
+        "Please check your inbox for instructions to reset your password, it may take up to 5 minutes to receive"
       );
     } catch {
       setError("We could not reset your password");
@@ -82,7 +66,7 @@ export default function ForgotPassword() {
                 id="email"
                 value={email}
                 name="email"
-                onChange={e => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
                 autoFocus
                 autoComplete="email"
               />
@@ -109,7 +93,6 @@ export default function ForgotPassword() {
             </form>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
   );
