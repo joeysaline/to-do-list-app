@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { useTask } from "../TaskContext";
+import { useTask } from "../contexts/TaskContext";
 import { IconButton, TextField } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function AddTask() {
   const { editor, addTask } = useTask();
+  const { user } = useAuth();
   const [ task, setTask ] = useState({
     id: "",
     description: "",
     complete: false,
+    user_id: user.uid,
   });
 
   function handleTaskStateChange(e) {

@@ -1,5 +1,6 @@
 import React, { useContext, useReducer, useEffect } from "react";
-import taskReducer, { ACTIONS, INITIAL_STATE } from "./taskReducer";
+import taskReducer, { ACTIONS, INITIAL_STATE } from "../taskReducer";
+import { useAuth } from "./AuthContext";
 
 const TaskContext = React.createContext();
 
@@ -9,12 +10,13 @@ export function useTask() {
 
 export function TaskProvider({ children }) {
   const [state, dispatch] = useReducer(taskReducer, INITIAL_STATE);
+  const { user } = useAuth();
 
   // get tasks from database
   async function getTasks() {
     try {
       const response = await fetch(
-        `http://${process.env.REACT_APP_ADDRESS}:5000/tasks`
+        `http://${process.env.REACT_APP_ADDRESS}:5000/tasks/${user.uid}`
       );
       const data = await response.json();
       console.log(response);
@@ -122,6 +124,7 @@ export function TaskProvider({ children }) {
     dispatch,
     tasks: state.tasks,
     editor: state.editor,
+    user: state.user,
     addTask,
     removeTask,
     editTask,
