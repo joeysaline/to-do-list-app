@@ -37,8 +37,11 @@ app.post("/tasks", async (req, res) => {
 // Read all tasks for a user
 app.get("/tasks/:user_id", async (req, res) => {
   try {
-    const {user_id} = req.params;
-    const allTasks = await pool.query("SELECT * FROM tasks WHERE user_id = $1 ORDER BY index DESC", [user_id]);
+    const { user_id } = req.params;
+    const allTasks = await pool.query(
+      "SELECT * FROM tasks WHERE user_id = $1 ORDER BY index DESC",
+      [user_id]
+    );
     res.json(allTasks.rows);
   } catch (err) {
     console.log(err.message);

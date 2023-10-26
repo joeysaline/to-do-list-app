@@ -11,6 +11,7 @@
 
 # production
 /build
+to-do-list/build*
 
 # misc
 /server/.env
