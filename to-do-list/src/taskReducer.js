@@ -1,13 +1,6 @@
 export const INITIAL_STATE = {
-  task: {
-    id: "",
-    description: "",
-    complete: false,
-  },
   editor: {
     id: "",
-    description: "",
-    complete: false,
     isEditing: false,
   },
   tasks: [],
@@ -70,25 +63,26 @@ const taskReducer = (state, action) => {
       console.log(ACTIONS.SET_EDITOR, payload);
       return {
         ...state,
-        editor: payload,
+        editor: {
+          id: payload.id,
+          isEditing: payload.isEditing,
+        },
       };
-      case ACTIONS.RESET_EDITOR:
-        console.log(ACTIONS.RESET_EDITOR, payload);
-        return {
-          ...state,
+    case ACTIONS.RESET_EDITOR:
+      console.log(ACTIONS.RESET_EDITOR, payload);
+      return {
+        ...state,
         editor: {
           id: "",
-          description: "",
-          complete: false,
           isEditing: false,
         },
       };
-      case ACTIONS.SET_USER:
-        console.log(ACTIONS.SET_USER, payload);
-        return {
-          ...state,
-          user: payload,
-        };
+    case ACTIONS.SET_USER:
+      console.log(ACTIONS.SET_USER, payload);
+      return {
+        ...state,
+        user: payload,
+      };
     default:
       throw new Error(`No action defined for type ${type}.`);
   }

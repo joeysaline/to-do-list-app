@@ -19,8 +19,8 @@ function App() {
           {user.email}
           <main className="container">
             <h1 className="text-center pt-3">To Do</h1>
-            <AddTask></AddTask>
-            <TaskList></TaskList>
+            <AddTask />
+            <TaskList />
           </main>
         </TaskProvider>
       )}

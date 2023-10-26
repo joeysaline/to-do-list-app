@@ -4,9 +4,11 @@ import { useTask } from "../contexts/TaskContext";
 import { IconButton, TextField } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { useAuth } from "../contexts/AuthContext";
+import { ACTIONS } from "../taskReducer";
 
 export default function AddTask() {
-  const { editor, addTask } = useTask();
+
+  const { editor, dispatch } = useTask();
   const { user } = useAuth();
   const [ task, setTask ] = useState({
     id: "",
@@ -26,6 +28,28 @@ export default function AddTask() {
       setTask({ ...task, description: "" });
     }
   }
+
+    // add task to database
+    async function addTask(task) {
+      try {
+        const response = await fetch(
+          `http://${process.env.REACT_APP_ADDRESS}:5000/tasks`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(task),
+          }
+        );
+        console.log(response);
+        // update state
+        dispatch({
+          type: ACTIONS.ADD,
+          payload: task,
+        });
+      } catch (error) {
+        console.error(error.message);
+      }
+    }
 
   return (
     <>

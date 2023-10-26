@@ -19,7 +19,7 @@ export function TaskProvider({ children }) {
         `http://${process.env.REACT_APP_ADDRESS}:5000/tasks/${user.uid}`
       );
       const data = await response.json();
-      console.log(response);
+      // console.log(response);
       // update state
       dispatch({
         type: ACTIONS.SET,
@@ -31,68 +31,13 @@ export function TaskProvider({ children }) {
   }
 
   // add task to database
-  async function addTask(task) {
-    try {
-      const response = await fetch(
-        `http://${process.env.REACT_APP_ADDRESS}:5000/tasks`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(task),
-        }
-      );
-      console.log(response);
-      // update state
-      dispatch({
-        type: ACTIONS.ADD,
-        payload: task,
-      });
-    } catch (error) {
-      console.error(error.message);
-    }
-  }
+  // logic now exists inside of add task component
 
   // remove task from database
-  async function removeTask(task) {
-    try {
-      const response = await fetch(
-        `http://${process.env.REACT_APP_ADDRESS}:5000/tasks/${task.id}`,
-        {
-          method: "DELETE",
-        }
-      );
-      console.log(response);
-      // update state
-      dispatch({
-        type: ACTIONS.DELETE,
-        payload: task,
-      });
-    } catch (error) {
-      console.error(error.message);
-    }
-  }
+  // logic now exists inside of remove task component
 
   // edit a task in database
-  async function editTask(task) {
-    try {
-      const response = await fetch(
-        `http://${process.env.REACT_APP_ADDRESS}:5000/tasks/description`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(task),
-        }
-      );
-      console.log(response);
-      // update state
-      dispatch({
-        type: ACTIONS.EDIT,
-        payload: task,
-      });
-    } catch (error) {
-      console.error(error.message);
-    }
-  }
+  // logic now exists inside of edit task component
 
   // mark a task as complete in database
   async function completeTask(task) {
@@ -118,16 +63,14 @@ export function TaskProvider({ children }) {
 
   useEffect(() => {
     getTasks();
-  }, []);
+    // eslint-disable-next-line
+  }, [user]);
 
   const value = {
     dispatch,
     tasks: state.tasks,
     editor: state.editor,
     user: state.user,
-    addTask,
-    removeTask,
-    editTask,
     completeTask,
   };
 

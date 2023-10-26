@@ -12,8 +12,6 @@ export default function EditTask({ props }) {
       type: ACTIONS.SET_EDITOR,
       payload: {
         id: props.id,
-        description: props.description,
-        complete: props.complete,
         isEditing: true,
       },
     });
